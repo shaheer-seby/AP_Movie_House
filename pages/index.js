@@ -20,8 +20,8 @@ const Home = ({movies}) => {
         <h2 className="text-2xl font-semibold text-gray-800 mb-6">Trending Movies</h2>
 
           <div className="flex flex-wrap justify-center gap-6">
-            {movies.slice(0, 3).map((movie) => (
-              <MovieCard key={movie.id} movie={movie} />
+            {movies.slice(0, 3)?.map((movie) => (
+              <MovieCard key={movie?.id} movie={movie} />
             ))}
           </div>
       </main>

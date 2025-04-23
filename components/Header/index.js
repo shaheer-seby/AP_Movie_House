@@ -21,7 +21,7 @@ const Header = () => {
   };
 
   return (
-    <header className="bg-gray-900 text-white shadow-md">
+    <header className="bg-blue-900 text-white shadow-md">
       <div className="container mx-auto px-4 py-4 flex items-center justify-between">
         <Link href="/" className="text-2xl font-bold hover:text-blue-400 transition">
           Movie House
@@ -36,7 +36,7 @@ const Header = () => {
           </button>
         </div>
 
-        <nav className="hidden md:flex space-x-2">
+        <nav className="hidden md:flex ">
           {tabs.map((tab) => (
             <Link
               key={tab.path}
@@ -44,7 +44,7 @@ const Header = () => {
               className={`px-4 py-2 rounded-lg font-medium transition ${
                 isActive(tab.path)
                   ? 'bg-white text-gray-900'
-                  : 'bg-gray-900 hover:bg-blue-600'
+                  : 'bg-blue-900 hover:bg-blue-600'
               }`}
             >
               {tab.name}
@@ -63,7 +63,7 @@ const Header = () => {
               className={`block w-full px-4 py-2 rounded-lg font-medium text-center transition ${
                 isActive(tab.path)
                   ? 'bg-white text-gray-900'
-                  : 'bg-gray-900 hover:bg-blue-700'
+                  : 'bg-blue-900 hover:bg-blue-700'
               }`}
               onClick={() => setMenuOpen(false)}
             >
