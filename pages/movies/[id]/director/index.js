@@ -1,5 +1,3 @@
-import fs from 'fs';
-import path from 'path';
 import Link from 'next/link';
 
 const DirectorPage = ({ director, movie }) => {
@@ -15,12 +13,12 @@ const DirectorPage = ({ director, movie }) => {
     <>
       <main className="container mx-auto px-4 py-10">
         <h1 className="text-2xl font-bold mb-2">{director.name}</h1>
-        <p className="text-gray-600 mb-4">{director.biography}</p>
+        <p className="mb-4">{director.biography}</p>
 
-        <p className="text-gray-500">Movie: <span className="font-semibold">{movie.title}</span></p>
+        <p className="">Movie: <span className="font-semibold">{movie.title}</span></p>
 
         <Link
-          href={`/movies/${movie.id}`}
+          href={`/movies/${movie._id}`}
           className="inline-block mt-4 text-blue-600 hover:underline"
         >
           ← Back to Movie Details
@@ -30,40 +28,86 @@ const DirectorPage = ({ director, movie }) => {
   );
 };
 
+// export async function getStaticPaths() {
+//   const filePath = path.join(process.cwd(), 'public/data/data.json');
+//   const jsonData = fs.readFileSync(filePath, 'utf-8');
+//   const data = JSON.parse(jsonData);
+
+//   const paths = data.movies.map((movie) => ({
+//     params: { id: movie.id },
+//   }));
+
+//   return {
+//     paths,
+//     fallback: 'blocking',
+//   };
+// }
+
+// export async function getStaticProps({ params }) {
+//   const filePath = path.join(process.cwd(), 'public/data/data.json');
+//   const jsonData = fs.readFileSync(filePath, 'utf-8');
+//   const data = JSON.parse(jsonData);
+
+//   const movie = data.movies.find((m) => m.id === params.id);
+//   if (!movie) {
+//     return { notFound: true };
+//   }
+
+//   const director = data.directors.find((d) => d.id === movie.directorId);
+
+//   return {
+//     props: {
+//       movie,
+//       director: director || null,
+//     },
+//     revalidate: 10,
+//   };
+// }
+
+
+
 export async function getStaticPaths() {
-  const filePath = path.join(process.cwd(), 'public/data/data.json');
-  const jsonData = fs.readFileSync(filePath, 'utf-8');
-  const data = JSON.parse(jsonData);
+  try {
+    const res = await fetch('http://localhost:3000/api/movies');
+    const movies = await res.json();
 
-  const paths = data.movies.map((movie) => ({
-    params: { id: movie.id },
-  }));
+    const paths = movies.map((movie) => ({
+      params: { id: movie._id.toString() },
+    }));
 
-  return {
-    paths,
-    fallback: 'blocking',
-  };
+    return {
+      paths,
+      fallback: 'blocking',
+    };
+  } catch (error) {
+    console.error('Error generating paths:', error);
+    return {
+      paths: [],
+      fallback: 'blocking',
+    };
+  }
 }
 
 export async function getStaticProps({ params }) {
-  const filePath = path.join(process.cwd(), 'public/data/data.json');
-  const jsonData = fs.readFileSync(filePath, 'utf-8');
-  const data = JSON.parse(jsonData);
+  try {
+    const movieRes = await fetch(`http://localhost:3000/api/movies/${params.id}`);
+    if (!movieRes.ok) return { notFound: true };
+    const movie = await movieRes.json();
 
-  const movie = data.movies.find((m) => m.id === params.id);
-  if (!movie) {
+    const directorRes = await fetch(`http://localhost:3000/api/directors/${movie.directorId}`);
+    const director = directorRes.ok ? await directorRes.json() : null;
+
+    return {
+      props: {
+        movie,
+        director,
+      },
+      revalidate: 10,
+    };
+  } catch (error) {
+    console.error('Error fetching director page data:', error);
     return { notFound: true };
   }
-
-  const director = data.directors.find((d) => d.id === movie.directorId);
-
-  return {
-    props: {
-      movie,
-      director: director || null,
-    },
-    revalidate: 10,
-  };
 }
 
 export default DirectorPage;
