@@ -9,12 +9,12 @@ const MovieDetails = ({ movie, director, genre }) => {
   return (
     <>
       <main className="container mx-auto px-4 py-10">
-        <h1 className="text-3xl font-bold text-gray-800 mb-4">{movie.title}</h1>
-        <p className="text-gray-600 mb-2">{movie.description}</p>
-        <p className="text-gray-500">Released: {movie.releaseYear}</p>
-        <p className="text-gray-500">Rating: {movie.rating}</p>
-        <p className="text-gray-500">Genre: {genre?.name || 'Unknown'}</p>
-        <p className="text-gray-500">Director: {director?.name || 'Unknown'}</p>
+        <h1 className="text-3xl font-bold mb-4">{movie.title}</h1>
+        <p className="mb-2">{movie.description}</p>
+        <p className="">Released: {movie.releaseYear}</p>
+        <p className="">Rating: {movie.rating}</p>
+        <p className="">Genre: {genre?.name || 'Unknown'}</p>
+        <p className="">Director: {director?.name || 'Unknown'}</p>
 
         <Link
           href={`/movies/${movie._id}/director`}

@@ -29,7 +29,13 @@ const Header = () => {
           Movie House
         </Link>
 
-        <div className="md:hidden">
+        <div className="flex md:hidden">
+        <button
+            onClick={toggleTheme}
+            className="px-4 py-2 w-full rounded-lg"
+          >
+            {darkMode ? '☀️' : '🌙'}
+          </button>
           <button
             onClick={() => setMenuOpen(!menuOpen)}
             className="text-white focus:outline-none"
@@ -52,13 +58,13 @@ const Header = () => {
               {tab.name}
             </Link>
           ))}
-          <button
-            onClick={toggleTheme}
-            className="px-4 py-2 bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-white rounded"
-          >
-            {darkMode ? '☀ Light Mode' : '🌙 Dark Mode'}
-          </button>
         </nav>
+        <button
+            onClick={toggleTheme}
+            className="hidden md:block px-4 py-2 rounded-lg"
+          >
+            {darkMode ? ' ☀️ ' : '🌙'}
+          </button>
       </div>
 
       {/* Mobile Menu */}

@@ -3,11 +3,11 @@ import { FaStar } from 'react-icons/fa';
 
 const MovieCard = ({ movie }) => {
   return (
-    <div className="bg-white rounded-2xl shadow-md p-6 w-full sm:w-[300px] flex flex-col justify-between hover:shadow-xl transition duration-300 border border-gray-100">
+    <div className=" rounded-2xl shadow-md p-6 w-full sm:w-[300px] flex flex-col justify-between hover:shadow-xl transition duration-300 border border-gray-100">
       <div>
-        <h3 className="text-2xl font-bold text-gray-900 mb-2">{movie.title}</h3>
+        <h3 className="text-2xl font-bold mb-2">{movie.title}</h3>
 
-        <p className="text-sm text-gray-600 mb-4">
+        <p className="text-sm mb-4">
           {movie.description.length > 100
             ? `${movie.description.slice(0, 100)}...`
             : movie.description}
@@ -15,7 +15,7 @@ const MovieCard = ({ movie }) => {
 
         <div className="flex items-center gap-2 text-yellow-500 mb-4">
           <FaStar size={16} />
-          <span className="text-sm font-medium text-gray-800">{movie.rating}</span>
+          <span className="text-sm font-medium ">{movie.rating}</span>
         </div>
       </div>
 

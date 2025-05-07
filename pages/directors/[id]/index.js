@@ -13,16 +13,16 @@ const DirectorDetails = ({ director }) => {
 
   return (
     <main className="container mx-auto px-4 py-10">
-      <h1 className="text-3xl font-bold text-gray-800 mb-2">{director.name}</h1>
-      <p className="text-gray-600 mb-4">{director.biography}</p>
+      <h1 className="text-3xl font-bold mb-2">{director.name}</h1>
+      <p className=" mb-4">{director.biography}</p>
 
-      <h2 className="text-2xl font-semibold text-gray-800 mt-6 mb-4">Movies Directed:</h2>
+      <h2 className="text-2xl font-semibold mt-6 mb-4">Movies Directed:</h2>
       <ul className="space-y-2">
         {director.moviesDirected.map((movie) => (
           <li key={movie._id} className="border p-4 rounded-md shadow-sm">
             <p className="text-lg font-medium">{movie.title}</p>
-            <p className="text-gray-600">{movie.description}</p>
-            <p className="text-sm text-gray-500">Released: {movie.releaseYear} | Rating: {movie.rating}</p>
+            <p className="">{movie.description}</p>
+            <p className="text-sm">Released: {movie.releaseYear} | Rating: {movie.rating}</p>
           </li>
         ))}
       </ul>

@@ -11,11 +11,11 @@ const DirectorsPage = () => {
   return (
     <>
       <main className="container flex-grow mx-auto px-4 py-10">
-        <h1 className="text-3xl font-bold text-gray-900 mb-8">Directors</h1>
+        <h1 className="text-3xl font-bold mb-8">Directors</h1>
         {data.map((director) => (
-          <div key={director._id} className="mb-10 p-6 bg-white shadow rounded-lg">
-            <h2 className="text-xl font-semibold text-gray-800">{director.name}</h2>
-            <p className="text-gray-600 mb-2">{director.biography}</p>
+          <div key={director._id} className="mb-10 p-6 rounded-lg shadow-lg border border-gray-200">
+            <h2 className="text-xl font-semibold ">{director.name}</h2>
+            <p className="mb-2">{director.biography}</p>
 
 
 

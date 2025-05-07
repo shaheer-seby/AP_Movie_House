@@ -13,9 +13,9 @@ const DirectorPage = ({ director, movie }) => {
     <>
       <main className="container mx-auto px-4 py-10">
         <h1 className="text-2xl font-bold mb-2">{director.name}</h1>
-        <p className="text-gray-600 mb-4">{director.biography}</p>
+        <p className="mb-4">{director.biography}</p>
 
-        <p className="text-gray-500">Movie: <span className="font-semibold">{movie.title}</span></p>
+        <p className="">Movie: <span className="font-semibold">{movie.title}</span></p>
 
         <Link
           href={`/movies/${movie._id}`}

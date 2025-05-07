@@ -1,11 +1,10 @@
 import MovieCard from '@/components/MovieCard';
 
 export default function GenreMovies({ genre, movies }) {
-  console.log("🚀 ~ GenreMovies ~ movies:", movies)
   return (
     <>
       <main className="container mx-auto px-4 py-10">
-        <h1 className="text-4xl font-bold text-gray-900 mb-6 text-center">
+        <h1 className="text-4xl font-bold mb-6 text-center">
           {genre?.name ? `${genre.name} Movies` : 'Genre Not Found'}
         </h1>
 
@@ -15,7 +14,7 @@ export default function GenreMovies({ genre, movies }) {
               <MovieCard key={movie._id} movie={movie} />
             ))
           ) : (
-            <p className="text-gray-500">No movies found for this genre.</p>
+            <p className="">No movies found for this genre.</p>
           )}
         </div>
       </main>

@@ -1,31 +1,37 @@
-'use client';
-import { createContext, useContext, useEffect, useState } from 'react';
+import { createContext, useState, useEffect, useContext } from 'react';
 
+// Create Context
 const ThemeContext = createContext();
 
+// Custom hook to use the ThemeContext
+export const useTheme = () => useContext(ThemeContext);
+
+// ThemeProvider component to wrap your app and provide theme context
 export const ThemeProvider = ({ children }) => {
   const [darkMode, setDarkMode] = useState(false);
 
-  // Load theme from localStorage on mount
+  // Sync theme from localStorage on mount (client-side only)
   useEffect(() => {
-    const savedTheme = localStorage.getItem('theme');
-    if (savedTheme === 'dark') {
+    const storedTheme = localStorage.getItem('theme');
+    if (storedTheme === 'dark') {
       setDarkMode(true);
-      document.documentElement.classList.add('dark');
     }
   }, []);
 
-  const toggleTheme = () => {
-    const isDark = !darkMode;
-    setDarkMode(isDark);
-    localStorage.setItem('theme', isDark ? 'dark' : 'light');
-
-    if (isDark) {
-      document.documentElement.classList.add('dark');
+  // Apply theme and persist
+  useEffect(() => {
+    if (darkMode) {
+      document.documentElement.style.setProperty('--background', '#0a0a0a');
+      document.documentElement.style.setProperty('--foreground', '#ededed');
     } else {
-      document.documentElement.classList.remove('dark');
+      document.documentElement.style.setProperty('--background', '#ffffff');
+      document.documentElement.style.setProperty('--foreground', '#171717');
     }
-  };
+
+    localStorage.setItem('theme', darkMode ? 'dark' : 'light');
+  }, [darkMode]);
+
+  const toggleTheme = () => setDarkMode((prev) => !prev);
 
   return (
     <ThemeContext.Provider value={{ darkMode, toggleTheme }}>
@@ -33,5 +39,3 @@ export const ThemeProvider = ({ children }) => {
     </ThemeContext.Provider>
   );
 };
-
-export const useTheme = () => useContext(ThemeContext);

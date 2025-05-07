@@ -6,7 +6,6 @@ import { useEffect } from 'react';
 const Movies = ({ genres, movies }) => {
   const router = useRouter();
   
-  // Handle genre change
   const handleGenreChange = (event) => {
     const selectedGenre = event.target.value;
     if (selectedGenre == "all") {
@@ -20,7 +19,7 @@ const Movies = ({ genres, movies }) => {
     <>
       <main className="container mx-auto px-4 py-10">
         <div className="text-center mb-10">
-          <h1 className="text-4xl font-bold mb-4 text-gray-900">Browse by Genre</h1>
+          <h1 className="text-4xl font-bold mb-4">Browse by Genre</h1>
           <select
             onChange={handleGenreChange}
             className="bg-blue-600 text-white px-6 py-2 rounded-lg transition font-medium"
@@ -33,10 +32,10 @@ const Movies = ({ genres, movies }) => {
             ))}
           </select>
         </div>
-        <h2 className="text-2xl font-semibold text-gray-800 mb-6">Movies</h2>
+        <h2 className="text-2xl font-semibold mb-6">Movies</h2>
         <div className="flex flex-wrap justify-center gap-6">
           {movies.length === 0 ? (
-            <p className="text-center text-gray-500">No movies found for this genre.</p>
+            <p className="text-center ">No movies found for this genre.</p>
           ) : (
             movies.map((movie) => (
               <MovieCard key={movie._id} movie={movie} />
@@ -54,14 +53,14 @@ const Movies = ({ genres, movies }) => {
 export async function getServerSideProps({ query, req }) {
   const genreQuery = query.genre || '';
 
-  const baseUrl = `http://${req.headers.host}`; // works for localhost:3000 and production
+  const baseUrl = `http://${req.headers.host}`; 
 
   try {
-    // Fetch all genres
+    
     const genresRes = await fetch(`${baseUrl}/api/genres`);
     const genres = await genresRes.json();
 
-    // Fetch movies by genre if selected, otherwise fetch all
+
     const moviesRes = genreQuery
       ? await fetch(`${baseUrl}/api/genres/${genreQuery}/movies`)
       : await fetch(`${baseUrl}/api/movies`);
