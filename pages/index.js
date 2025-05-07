@@ -31,21 +31,43 @@ const Home = ({movies}) => {
 
 export default Home;
 
+// export async function getStaticProps() {
+//   try {
+//     const res = await fetch(`http://localhost:3000/data/data.json`);
+//     const data = await res.json();
+//     console.log(data); 
+
+//     if (!data || !data.movies) {
+//       console.log('Movies data not found');
+//       return {
+//         notFound: true,
+//       };
+//     }
+
+//     return {
+//       props: { movies: data.movies },
+//       revalidate: 10,
+//     };
+//   } catch (error) {
+//     console.error('Error fetching movies:', error);
+//     return {
+//       notFound: true,
+//     };
+//   }
+// }
+
+
 export async function getStaticProps() {
   try {
-    const res = await fetch(`http://localhost:3000/data/data.json`);
-    const data = await res.json();
-    console.log(data); 
+    const res = await fetch('http://localhost:3000/api/movies');
+    const movies = await res.json();
 
-    if (!data || !data.movies) {
-      console.log('Movies data not found');
-      return {
-        notFound: true,
-      };
+    if (!movies || !Array.isArray(movies)) {
+      return { notFound: true };
     }
 
     return {
-      props: { movies: data.movies },
+      props: { movies },
       revalidate: 10,
     };
   } catch (error) {

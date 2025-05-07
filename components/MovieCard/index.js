@@ -20,7 +20,7 @@ const MovieCard = ({ movie }) => {
       </div>
 
       <Link
-        href={`/movies/${movie.id}`}
+        href={`/movies/${movie._id}`}
         className="inline-flex items-center justify-center gap-2 bg-blue-600 text-white py-2 px-6 rounded-lg font-semibold hover:bg-blue-700 transition"
       >
         View Details

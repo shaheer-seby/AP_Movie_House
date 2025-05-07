@@ -1,8 +1,7 @@
-import fs from 'fs';
-import path from 'path';
 import MovieCard from '@/components/MovieCard';
 
 export default function GenreMovies({ genre, movies }) {
+  console.log("🚀 ~ GenreMovies ~ movies:", movies)
   return (
     <>
       <main className="container mx-auto px-4 py-10">
@@ -13,7 +12,7 @@ export default function GenreMovies({ genre, movies }) {
         <div className="flex flex-wrap justify-center gap-6">
           {movies.length > 0 ? (
             movies.map((movie) => (
-              <MovieCard key={movie.id} movie={movie} />
+              <MovieCard key={movie._id} movie={movie} />
             ))
           ) : (
             <p className="text-gray-500">No movies found for this genre.</p>
@@ -25,34 +24,48 @@ export default function GenreMovies({ genre, movies }) {
 }
 
 export async function getStaticPaths() {
-  const filePath = path.join(process.cwd(), 'public/data/data.json');
-  const jsonData = fs.readFileSync(filePath, 'utf-8');
-  const data = JSON.parse(jsonData);
+  try {
+    const res = await fetch('http://localhost:3000/api/genres');
+    const genres = await res.json();
 
-  const paths = data.genres.map((genre) => ({
-    params: { id: genre.id },
-  }));
+    const paths = genres.map((genre) => ({
+      params: { id: genre.genreId }, 
+    }));
 
-  return {
-    paths,
-    fallback: false,
-  };
+    return {
+      paths,
+      fallback: false, 
+    };
+  } catch (error) {
+    console.error('Failed to fetch genres:', error);
+    return { paths: [], fallback: false };
+  }
 }
 
 export async function getStaticProps({ params }) {
-  const filePath = path.join(process.cwd(), 'public/data/data.json');
-  const jsonData = fs.readFileSync(filePath, 'utf-8');
-  const data = JSON.parse(jsonData);
+  const { id } = params;
 
-  const genre = data.genres.find((g) => g.id === params.id);
-  const movies = genre
-    ? data.movies.filter((movie) => movie.genreId === genre.id)
-    : [];
+  try {
+    const genreRes = await fetch(`http://localhost:3000/api/genres/${id}`);
+    const genre = await genreRes.json();
 
-  return {
-    props: {
-      genre: genre || null,
-      movies,
-    },
-  };
+    const moviesRes = await fetch(`http://localhost:3000/api/genres/${id}/movies`);
+    const movies = await moviesRes.json();
+
+    return {
+      props: {
+        genre,
+        movies,
+      },
+      revalidate: 60, 
+    };
+  } catch (error) {
+    console.error('Error fetching genre or movies:', error);
+    return {
+      props: {
+        genre: null,
+        movies: [],
+      },
+    };
+  }
 }

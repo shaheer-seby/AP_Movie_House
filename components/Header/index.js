@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 import { Menu, X } from 'lucide-react';
+import { useTheme } from '@/context/ThemeContext';
 
 const tabs = [
   { name: 'Home', path: '/' },
@@ -19,6 +20,7 @@ const Header = () => {
     if (path === '/') return router.pathname === '/';
     return router.pathname.startsWith(path);
   };
+  const { darkMode, toggleTheme } = useTheme();
 
   return (
     <header className="bg-blue-900 text-white shadow-md">
@@ -50,6 +52,12 @@ const Header = () => {
               {tab.name}
             </Link>
           ))}
+          <button
+            onClick={toggleTheme}
+            className="px-4 py-2 bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-white rounded"
+          >
+            {darkMode ? '☀ Light Mode' : '🌙 Dark Mode'}
+          </button>
         </nav>
       </div>
 
